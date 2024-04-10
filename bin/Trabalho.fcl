@@ -1,0 +1,66 @@
+FUNCTION_BLOCK estufa
+VAR_INPUT
+    umidade_do_solo : REAL; 
+    umidade_relativa_do_ar : REAL; 
+    temperatura : REAL; 
+    tamanho_da_estufa : REAL;
+END_VAR
+
+VAR_OUTPUT
+    taxa_de_irrigacao : REAL;
+END_VAR
+
+FUZZIFY umidade_do_solo
+    TERM baixa := (0, 0) (30, 1) (65, 0);
+    TERM media := (60, 0) (70, 1) (80, 0);
+    TERM alta := (75, 0) (85, 1) (100, 0);
+END_FUZZIFY
+
+FUZZIFY umidade_relativa_do_ar
+    TERM baixa := (0, 0) (25, 1) (45, 0);
+    TERM media := (40, 0) (70, 1) (90, 0);
+    TERM alta := (85, 0) (95, 1) (100, 0);
+END_FUZZIFY
+
+FUZZIFY temperatura
+    TERM baixa := (0, 0) (10, 1) (20, 0);
+    TERM media := (18, 0) (22, 1) (26, 0);
+    TERM alta := (24, 0) (28, 1) (32, 0);
+END_FUZZIFY
+
+FUZZIFY tamanho_da_estufa
+    TERM pequena := (4, 0) (10, 1) (16, 0);
+    TERM media := (13, 0) (24, 1) (36, 0);
+    TERM grande := (30, 0) (43, 1) (50, 0);
+END_FUZZIFY
+
+DEFUZZIFY taxa_de_irrigacao
+    TERM baixa := (0, 0) (20, 1) (40, 0);
+    TERM media := (30, 0) (50, 1) (70, 0);
+    TERM alta := (60, 0) (80, 1) (100, 0);
+    METHOD : COG; // Método do centro de gravidade
+END_DEFUZZIFY
+
+RULEBLOCK regras
+    AND : MIN;
+    OR : MAX;
+    ACT : MIN;
+
+    RULE 1 : IF (umidade_do_solo IS baixa) AND (umidade_relativa_do_ar IS baixa) AND (temperatura IS baixa) AND (tamanho_da_estufa IS pequena) THEN (taxa_de_irrigacao IS alta);
+    RULE 2 : IF (umidade_do_solo IS media) AND (umidade_relativa_do_ar IS alta) AND (temperatura IS alta) AND (tamanho_da_estufa IS grande) THEN (taxa_de_irrigacao IS baixa);
+    RULE 3 : IF (umidade_do_solo IS alta) AND (umidade_relativa_do_ar IS media) AND (temperatura IS media) AND (tamanho_da_estufa IS media) THEN (taxa_de_irrigacao IS media);
+    RULE 4 : IF (umidade_do_solo IS media) AND (umidade_relativa_do_ar IS media) AND (temperatura IS alta) AND (tamanho_da_estufa IS pequena) THEN (taxa_de_irrigacao IS alta);
+    RULE 5 : IF (umidade_do_solo IS alta) AND (umidade_relativa_do_ar IS alta) AND (temperatura IS baixa) AND (tamanho_da_estufa IS grande) THEN (taxa_de_irrigacao IS baixa);
+    RULE 6 : IF (umidade_do_solo IS baixa) AND (umidade_relativa_do_ar IS alta) AND (temperatura IS baixa) AND (tamanho_da_estufa IS pequena) THEN (taxa_de_irrigacao IS media);
+    RULE 7 : IF (umidade_do_solo IS media) AND (umidade_relativa_do_ar IS media) AND (temperatura IS media) AND (tamanho_da_estufa IS grande) THEN (taxa_de_irrigacao IS baixa);
+    RULE 8 : IF (umidade_do_solo IS alta) AND (umidade_relativa_do_ar IS baixa) AND (temperatura IS media) AND (tamanho_da_estufa IS pequena) THEN (taxa_de_irrigacao IS media);
+    RULE 9 : IF (umidade_do_solo IS media) AND (umidade_relativa_do_ar IS baixa) AND (temperatura IS alta) AND (tamanho_da_estufa IS media) THEN (taxa_de_irrigacao IS alta);
+    RULE 10: IF (umidade_do_solo IS alta) AND (umidade_relativa_do_ar IS media) AND (temperatura IS baixa) AND (tamanho_da_estufa IS grande) THEN (taxa_de_irrigacao IS baixa);
+    RULE 11: IF (umidade_do_solo IS baixa) AND (umidade_relativa_do_ar IS alta) AND (temperatura IS media) AND (tamanho_da_estufa IS grande) THEN (taxa_de_irrigacao IS media);
+    RULE 12: IF (umidade_do_solo IS media) AND (umidade_relativa_do_ar IS baixa) AND (temperatura IS alta) AND (tamanho_da_estufa IS pequena) THEN (taxa_de_irrigacao IS alta);
+    RULE 13: IF (umidade_do_solo IS alta) AND (umidade_relativa_do_ar IS media) AND (temperatura IS alta) AND (tamanho_da_estufa IS pequena) THEN (taxa_de_irrigacao IS alta);
+    RULE 14: IF (umidade_do_solo IS alta) AND (umidade_relativa_do_ar IS alta) AND (temperatura IS alta) AND (tamanho_da_estufa IS grande) THEN (taxa_de_irrigacao IS baixa);
+    RULE 15: IF (umidade_do_solo IS baixa) AND (umidade_relativa_do_ar IS baixa) AND (temperatura IS baixa) AND (tamanho_da_estufa IS pequena) THEN (taxa_de_irrigacao IS alta);
+
+END_RULEBLOCK
+END_FUNCTION_BLOCK
