@@ -11,10 +11,10 @@ import net.sourceforge.jFuzzyLogic.plot.JDialogFis;
 
 public class JPanelFuzzy extends javax.swing.JFrame {
     // Para rodar o .jar
-    InputStream fileName = getClass().getResourceAsStream("Trabalho.fcl");
+    //InputStream fileName = getClass().getResourceAsStream("Trabalho.fcl");
 
     // Para rodar no VSCODE
-    //String fileName = "./src/Trabalho.fcl";
+    String fileName = "./src/Trabalho.fcl";
     FIS fis; 
     JDialogFis dialogoFIS;
     private double taxaIrrigacao;
