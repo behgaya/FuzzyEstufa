@@ -11,34 +11,34 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY umidade_do_solo
-    TERM baixa := (0, 0) (30, 1) (65, 0);
+    TERM baixa := (-1, 0) (30, 1) (65, 0);
     TERM media := (60, 0) (70, 1) (80, 0);
-    TERM alta := (75, 0) (85, 1) (100, 0);
+    TERM alta := (75, 0) (85, 1) (101, 0);
 END_FUZZIFY
 
 FUZZIFY umidade_relativa_do_ar
-    TERM baixa := (0, 0) (25, 1) (45, 0);
+    TERM baixa := (-1, 0) (25, 1) (45, 0);
     TERM media := (40, 0) (70, 1) (90, 0);
-    TERM alta := (85, 0) (95, 1) (100, 0);
+    TERM alta := (85, 0) (95, 1) (101, 0);
 END_FUZZIFY
 
 FUZZIFY temperatura
-    TERM baixa := (0, 0) (10, 1) (20, 0);
-    TERM media := (18, 0) (22, 1) (26, 0);
-    TERM alta := (24, 0) (28, 1) (32, 0);
+    TERM baixa := (-6, 0) (0, 1) (20, 0);
+    TERM media := (15, 0) (22, 1) (26, 0);
+    TERM alta := (24, 0) (28, 1) (33, 0);
 END_FUZZIFY
 
 FUZZIFY tamanho_da_estufa
     TERM pequena := (4, 0) (10, 1) (16, 0);
     TERM media := (13, 0) (24, 1) (36, 0);
-    TERM grande := (30, 0) (43, 1) (50, 0);
+    TERM grande := (30, 0) (43, 1) (51, 0);
 END_FUZZIFY
 
 DEFUZZIFY taxa_de_irrigacao
     TERM baixa := (0, 0) (20, 1) (40, 0);
     TERM media := (30, 0) (50, 1) (70, 0);
-    TERM alta := (60, 0) (80, 1) (100, 0);
-    METHOD : COG; // Método do centro de gravidade
+    TERM alta := (60, 0) (80, 1) (101, 0);
+    METHOD : COG; 
 END_DEFUZZIFY
 
 RULEBLOCK regras

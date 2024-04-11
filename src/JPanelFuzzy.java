@@ -11,23 +11,15 @@ import net.sourceforge.jFuzzyLogic.plot.JDialogFis;
 
 public class JPanelFuzzy extends javax.swing.JFrame {
     // Para rodar o .jar
-    //InputStream fileName = getClass().getResourceAsStream("Trabalho.fcl");
+    InputStream fileName = getClass().getResourceAsStream("Trabalho.fcl");
 
     // Para rodar no VSCODE
-    String fileName = "./src/Trabalho.fcl";
+    //String fileName = "./src/Trabalho.fcl";
     FIS fis; 
     JDialogFis dialogoFIS;
     private double taxaIrrigacao;
 
-    private JSlider jSliderUmidadeSolo;
-    private JSlider jSliderUmidadeAr;
-    private JSlider jSliderTemperatura;
-    private JSlider jSliderTamanhoEstufa;
-    private JLabel jLabelUmidadeSolo;
-    private JLabel jLabelUmidadeAr;
-    private JLabel jLabelTemperatura;
-    private JLabel jLabelTamanhoEstufa;
-    private JLabel jLabelTaxaIrrigacao;
+
 
     public JPanelFuzzy() {
         initComponents();
@@ -55,21 +47,21 @@ public class JPanelFuzzy extends javax.swing.JFrame {
         }
 
         fis.setVariable("umidade_do_solo", jSliderUmidadeSolo.getValue());
-        jLabelUmidadeSolo.setText("Umidade do Solo: " + jSliderUmidadeSolo.getValue());
+        jLabelUmidadeSolo.setText("Umidade do Solo: " + jSliderUmidadeSolo.getValue() + "%");
 
         fis.setVariable("umidade_relativa_do_ar", jSliderUmidadeAr.getValue());
-        jLabelUmidadeAr.setText("Umidade Relativa do Ar: " + jSliderUmidadeAr.getValue());
+        jLabelUmidadeAr.setText("Umidade Relativa do Ar: " + jSliderUmidadeAr.getValue() + "%");
 
         fis.setVariable("temperatura", jSliderTemperatura.getValue());
-        jLabelTemperatura.setText("Temperatura: " + jSliderTemperatura.getValue());
+        jLabelTemperatura.setText("Temperatura: " + jSliderTemperatura.getValue() + " °C");
         
         fis.setVariable("tamanho_da_estufa", jSliderTamanhoEstufa.getValue());
-        jLabelTamanhoEstufa.setText("Tamanho da Estufa: " + jSliderTamanhoEstufa.getValue());
+        jLabelTamanhoEstufa.setText("Tamanho da Estufa: " + jSliderTamanhoEstufa.getValue() + " m²");
 
         fis.evaluate();
 
         taxaIrrigacao = fis.getVariable("taxa_de_irrigacao").getLatestDefuzzifiedValue();
-        jLabelTaxaIrrigacao.setText("Taxa de Irrigação: " + taxaIrrigacao);
+        jLabelTaxaIrrigacao.setText("Taxa de Irrigação: " + taxaIrrigacao + "%");
 
         dialogoFIS.repaint();
     }
@@ -89,43 +81,43 @@ public class JPanelFuzzy extends javax.swing.JFrame {
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jSliderUmidadeSolo.setMinimum(1);
-        jSliderUmidadeSolo.setMaximum(99);
+        jSliderUmidadeSolo.setMinimum(0);
+        jSliderUmidadeSolo.setMaximum(100);
         jSliderUmidadeSolo.setPaintTicks(true);
 
-        jSliderUmidadeAr.setMinimum(1);
-        jSliderUmidadeAr.setMaximum(99);
+        jSliderUmidadeAr.setMinimum(0);
+        jSliderUmidadeAr.setMaximum(100);
         jSliderUmidadeAr.setPaintTicks(true);
 
-        jSliderTemperatura.setMinimum(1);
-        jSliderTemperatura.setMaximum(31);
+        jSliderTemperatura.setMinimum(-5);
+        jSliderTemperatura.setMaximum(32);
         jSliderTemperatura.setPaintTicks(true);
 
         jSliderTamanhoEstufa.setMinimum(5);
-        jSliderTamanhoEstufa.setMaximum(49);
+        jSliderTamanhoEstufa.setMaximum(50);
         jSliderTamanhoEstufa.setPaintTicks(true);
 
         jSliderUmidadeSolo.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderUmidadeSoloStateChanged(evt);
+                jSliderChanged(evt);
             }
         });
 
         jSliderUmidadeAr.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderUmidadeArStateChanged(evt);
+                jSliderChanged(evt);
             }
         });
 
         jSliderTemperatura.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderTemperaturaStateChanged(evt);
+                jSliderChanged(evt);
             }
         });
 
         jSliderTamanhoEstufa.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderTamanhoEstufaStateChanged(evt);
+                jSliderChanged(evt);
             }
         });
         
@@ -186,21 +178,10 @@ public class JPanelFuzzy extends javax.swing.JFrame {
         pack();
     }
 
-    private void jSliderUmidadeSoloStateChanged(javax.swing.event.ChangeEvent evt) {
+    private void jSliderChanged(javax.swing.event.ChangeEvent evt) {
         runCode();
     }
 
-    private void jSliderUmidadeArStateChanged(javax.swing.event.ChangeEvent evt) {
-        runCode();
-    }
-
-    private void jSliderTemperaturaStateChanged(javax.swing.event.ChangeEvent evt) {
-        runCode();
-    }
-
-    private void jSliderTamanhoEstufaStateChanged(javax.swing.event.ChangeEvent evt) {
-        runCode();
-    }
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -209,4 +190,15 @@ public class JPanelFuzzy extends javax.swing.JFrame {
             }
         });
     }
+
+
+    private JSlider jSliderUmidadeSolo;
+    private JSlider jSliderUmidadeAr;
+    private JSlider jSliderTemperatura;
+    private JSlider jSliderTamanhoEstufa;
+    private JLabel jLabelUmidadeSolo;
+    private JLabel jLabelUmidadeAr;
+    private JLabel jLabelTemperatura;
+    private JLabel jLabelTamanhoEstufa;
+    private JLabel jLabelTaxaIrrigacao;
 }
